@@ -14,8 +14,8 @@ const host = process.env.LOCAL_IP_ADDRESS;
 app.use(cors());
 // app.use(
 //   cors({
-//     origin: "http://localhost:3000", // Apna frontend URL daalo
-//     credentials: true,
+//     origin: "http://localhost:5173", // Tumhara frontend URL
+//     credentials: true, // ✅ Cookies allow karne ke liye
 //   }),
 // );
 app.use(express.json());

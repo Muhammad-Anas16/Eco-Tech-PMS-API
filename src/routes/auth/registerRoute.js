@@ -7,8 +7,7 @@ const registerRoute = express.Router();
 registerRoute.post("/auth/register", async (req, res) => {
   try {
     const { username, email, password } = req.body;
-
-    // ✅ Typo fix: resurlt -> result
+    
     const result = await auth.api.signUpEmail({
       body: {
         name: username,
