@@ -1,17 +1,27 @@
+import express from "express";
 import { auth } from "../../utils/auth.js";
+import resFunc from "../../utils/resFunc.js";
 
-const registerRoute = async (req, res) => {
+const registerRoute = express.Router();
+
+registerRoute.post("/auth/register", async (req, res) => {
   try {
     const { username, email, password } = req.body;
-    const resurlt = await auth.api.signUpEmail({
+
+    // ✅ Typo fix: resurlt -> result
+    const result = await auth.api.signUpEmail({
       body: {
-        name,
-        email,
-        password,
+        name: username,
+        email: email,
+        password: password,
       },
-      asResponse: false, // data return karega
+      asResponse: false,
     });
-  } catch (error) {}
-};
+
+    resFunc(res, 201, true, "Register successfully", result.user);
+  } catch (error) {
+    resFunc(res, 400, false, error.message);
+  }
+});
 
 export default registerRoute;
