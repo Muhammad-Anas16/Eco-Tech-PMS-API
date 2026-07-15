@@ -1,17 +1,20 @@
 import db2 from "../../config/db.js";
 
-// Create Assets Table
-export const createAssetTable = () => {
+// Create Inventory Table
+export const createInventoryTable = () => {
   const query = `
-    CREATE TABLE IF NOT EXISTS assets (
+    CREATE TABLE IF NOT EXISTS inventory (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
-      assetCode TEXT NOT NULL UNIQUE,
-      assetName TEXT NOT NULL,
+      itemCode TEXT NOT NULL UNIQUE,
+      itemName TEXT NOT NULL,
       category TEXT,
+      unit TEXT,
+      quantity INTEGER DEFAULT 0,
+      minimumStock INTEGER DEFAULT 0,
       location TEXT,
-      manufacturer TEXT,
-      serialNumber TEXT,
-      status TEXT DEFAULT 'Active',
+      supplier TEXT,
+      unitPrice REAL DEFAULT 0,
+      status TEXT DEFAULT 'Available',
       createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
       updatedAt DATETIME DEFAULT CURRENT_TIMESTAMP
     );
@@ -19,109 +22,127 @@ export const createAssetTable = () => {
 
   db2.exec(query);
 
-  console.log("✅ Assets table ready");
+  console.log("✅ Inventory table ready");
 };
 
-// Create Asset
-export const createAsset = (asset) => {
+// Create Inventory
+export const createInventory = (inventory) => {
   const {
-    assetCode,
-    assetName,
+    itemCode,
+    itemName,
     category,
+    unit,
+    quantity = 0,
+    minimumStock = 0,
     location,
-    manufacturer,
-    serialNumber,
-    status = "Active",
-  } = asset;
+    supplier,
+    unitPrice = 0,
+    status = "Available",
+  } = inventory;
 
   const statement = db2.prepare(`
-    INSERT INTO assets (
-      assetCode,
-      assetName,
+    INSERT INTO inventory (
+      itemCode,
+      itemName,
       category,
+      unit,
+      quantity,
+      minimumStock,
       location,
-      manufacturer,
-      serialNumber,
+      supplier,
+      unitPrice,
       status
     )
-    VALUES (?, ?, ?, ?, ?, ?, ?)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
   `);
 
   return statement.run(
-    assetCode,
-    assetName,
+    itemCode,
+    itemName,
     category,
+    unit,
+    quantity,
+    minimumStock,
     location,
-    manufacturer,
-    serialNumber,
+    supplier,
+    unitPrice,
     status,
   );
 };
 
-//  Get All Assets
-export const getAssets = () => {
+// Get All Inventory
+export const getInventories = () => {
   const statement = db2.prepare(`
     SELECT *
-    FROM assets
+    FROM inventory
     ORDER BY id DESC
   `);
 
   return statement.all();
 };
 
-//  Get Asset By ID
-export const getAssetById = (id) => {
+// Get Inventory By ID
+export const getInventoryById = (id) => {
   const statement = db2.prepare(`
     SELECT *
-    FROM assets
+    FROM inventory
     WHERE id = ?
   `);
 
   return statement.get(Number(id));
 };
 
-//  Update Asset
-export const updateAsset = (id, asset) => {
+// Update Inventory
+export const updateInventory = (id, inventory) => {
   const {
-    assetCode,
-    assetName,
+    itemCode,
+    itemName,
     category,
+    unit,
+    quantity = 0,
+    minimumStock = 0,
     location,
-    manufacturer,
-    serialNumber,
-    status = "Active",
-  } = asset;
+    supplier,
+    unitPrice = 0,
+    status = "Available",
+  } = inventory;
 
   const statement = db2.prepare(`
-    UPDATE assets
+    UPDATE inventory
     SET
-      assetCode = ?,
-      assetName = ?,
+      itemCode = ?,
+      itemName = ?,
       category = ?,
+      unit = ?,
+      quantity = ?,
+      minimumStock = ?,
       location = ?,
-      manufacturer = ?,
-      serialNumber = ?,
+      supplier = ?,
+      unitPrice = ?,
       status = ?,
       updatedAt = CURRENT_TIMESTAMP
     WHERE id = ?
   `);
 
   return statement.run(
-    assetCode,
-    assetName,
+    itemCode,
+    itemName,
     category,
+    unit,
+    quantity,
+    minimumStock,
     location,
-    manufacturer,
-    serialNumber,
+    supplier,
+    unitPrice,
     status,
     Number(id),
   );
 };
 
-// Delete Asset
-export const deleteAsset = (id) => {
+// Delete Inventory
+export const deleteInventory = (id) => {
   const statement = db2.prepare(`
-    DELETE FROM assets
+    DELETE FROM inventory
     WHERE id = ?
   `);
 

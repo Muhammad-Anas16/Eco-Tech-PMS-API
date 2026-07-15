@@ -8,7 +8,9 @@ import registerRoute from "./src/routes/auth/registerRoute.js";
 import userRoute from "./src/routes/user/userRoute.js";
 import logoutRoute from "./src/routes/auth/logoutRoute.js";
 import { initializeDatabase } from "./src/config/initDatabase.js";
-import assestRoute from "./src/routes/assest/assestRoute.js";
+import inventoryRoute from "./src/routes/inventory/inventoryRoute.js";
+import dashboardRoute from "./src/routes/Dashboard/dashboardRoute.js";
+import assetRoute from "./src/routes/asset/assetRoute.js";
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -23,7 +25,9 @@ app.use(
 
 initializeDatabase();
 app.use(express.json());
-app.use("/api", assestRoute);
+app.use("/api", dashboardRoute);
+app.use("/api", inventoryRoute);
+app.use("/api", assetRoute);
 app.use("/api", logoutRoute);
 app.use("/api", userRoute);
 app.use("/api", loginRoute);

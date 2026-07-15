@@ -10,7 +10,7 @@ export const getTotalAssets = () => {
   return statement.get();
 };
 
-// Total Inventory Items
+// Total Inventory
 export const getTotalInventory = () => {
   const statement = db2.prepare(`
     SELECT COUNT(*) AS totalInventory
@@ -20,7 +20,7 @@ export const getTotalInventory = () => {
   return statement.get();
 };
 
-// Low Stock Inventory
+// Low Stock Items
 export const getLowStockItems = () => {
   const statement = db2.prepare(`
     SELECT COUNT(*) AS lowStockItems
@@ -43,7 +43,7 @@ export const getRecentAssets = () => {
   return statement.all();
 };
 
-//  Recent Inventory
+// Recent Inventory
 export const getRecentInventory = () => {
   const statement = db2.prepare(`
     SELECT *
