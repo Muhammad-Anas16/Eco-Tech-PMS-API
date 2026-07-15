@@ -1,7 +1,7 @@
-import db2 from "../../config/db";
+import db2 from "../../config/db.js";
 
 export const createAssetTables = async () => {
-  const query = `CREATE TABLE IF NOT EXIST assets (
+  const query = `CREATE TABLE IF NOT EXISTS assets (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   assetcode TEXT NOT NULL UNIQUE,
   assetname TEXT,
@@ -11,10 +11,10 @@ export const createAssetTables = async () => {
   serialnumber TEXT,
   status TEXT DEFAULT 'active',
   createdat DATETIME DEFAULT CURRENT_TIMESTAMP,
-  updatedat DATETIME DEFAULT CURRENT_TIMESTAMP,
-  )
+  updatedat DATETIME DEFAULT CURRENT_TIMESTAMP
+)
   `;
   db2.exec(query);
 
-  console.log("Assest TAble Created ⚡")
+  console.log("Assest TAble Created ⚡");
 };

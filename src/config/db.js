@@ -1,14 +1,16 @@
 import Database from "better-sqlite3";
 import { fileURLToPath } from "url";
-import localDb from "../database/pms.db";
 import path from "path";
 
-const _filename = fileURLToPath(import.meta.url);
-const _dirname = path.dirname(_filename);
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
-const databasePath = path.join(_dirname, localDb);
+// Database file ka path
+const databasePath = path.join(__dirname, "../database/pms.db");
 
+// Agar file nahi hai to automatically create ho jayegi
 const db2 = new Database(databasePath);
-console.log("SQLite 2 Database connected ⚡");
+
+console.log("✅ SQLite Database Connected");
 
 export default db2;
