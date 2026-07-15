@@ -8,6 +8,7 @@ import registerRoute from "./src/routes/auth/registerRoute.js";
 import userRoute from "./src/routes/user/userRoute.js";
 import logoutRoute from "./src/routes/auth/logoutRoute.js";
 import { initializeDatabase } from "./src/config/initDatabase.js";
+import assestRoute from "./src/routes/assest/assestRoute.js";
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -22,6 +23,7 @@ app.use(
 
 initializeDatabase();
 app.use(express.json());
+app.use("/api", assestRoute);
 app.use("/api", logoutRoute);
 app.use("/api", userRoute);
 app.use("/api", loginRoute);
