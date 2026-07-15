@@ -1,9 +1,9 @@
-import { createAssetTables } from "../models/asset/asset.model.js";
+import { createAssetTable } from "../models/asset/asset.model.js";
 
 export const initializeDatabase = () => {
   console.log("🚀 Initializing Database...");
 
-  createAssetTables();
+  createAssetTable();
 
   console.log("✅ Database Ready");
 };
