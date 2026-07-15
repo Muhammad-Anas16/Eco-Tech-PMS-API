@@ -18,7 +18,7 @@ loginRoute.post("/auth/login", async (req, res) => {
     });
 
     // ✅ Typo fix: resurlt -> result
-    resFunc(res, 200, true, "Login successfully", result?.token);
+    resFunc(res, 200, true, "Login successfully", result);
   } catch (error) {
     resFunc(res, 400, false, error.message);
   }
