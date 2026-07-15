@@ -6,6 +6,7 @@ import { toNodeHandler } from "better-auth/node";
 import loginRoute from "./src/routes/auth/loginRoute.js";
 import registerRoute from "./src/routes/auth/registerRoute.js";
 import userRoute from "./src/routes/user/userRoute.js";
+import logoutRoute from "./src/routes/auth/logoutRoute.js";
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -18,6 +19,7 @@ app.use(
   }),
 );
 app.use(express.json());
+app.use("/api", logoutRoute);
 app.use("/api", userRoute);
 app.use("/api", loginRoute);
 app.use("/api", registerRoute);

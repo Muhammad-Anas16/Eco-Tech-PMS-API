@@ -7,7 +7,7 @@ const sessionRoute = express.Router();
 sessionRoute.get("/auth/get-session", async (req, res) => {
   try {
     const result = await auth.api.getSession({
-      headers: req.headers, // Express se headers pass karo
+      headers: req.headers,
     });
 
     if (!result) {
