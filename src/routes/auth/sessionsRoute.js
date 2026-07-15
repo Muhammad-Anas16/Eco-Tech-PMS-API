@@ -1,7 +1,6 @@
 import express from "express";
 import { auth } from "../../utils/auth.js";
-import resFunc from "../../utils/resFunc.js
-";
+import resFunc from "../../utils/resFunc.js";
 
 const sessionRoute = express.Router();
 
