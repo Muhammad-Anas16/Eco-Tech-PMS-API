@@ -11,6 +11,8 @@ import { initializeDatabase } from "./src/config/initDatabase.js";
 import inventoryRoute from "./src/routes/inventory/inventoryRoute.js";
 import dashboardRoute from "./src/routes/Dashboard/dashboardRoute.js";
 import assetRoute from "./src/routes/asset/assetRoute.js";
+import machineRoute from "./src/routes/machine/machineRoute.js";
+import machineLocationRoute from "./src/routes/machineLocation/machineLocationRoute.js";
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -18,7 +20,7 @@ const host = process.env.LOCAL_IP_ADDRESS;
 
 app.use(
   cors({
-    origin: "http://localhost:5173", // Apne frontend ka URL daalo
+    origin: "http://localhost:5173",
     credentials: true,
   }),
 );
@@ -28,6 +30,8 @@ app.use(express.json());
 app.use("/api", dashboardRoute);
 app.use("/api", inventoryRoute);
 app.use("/api", assetRoute);
+app.use("/api", machineRoute);
+app.use("/api", machineLocationRoute);
 app.use("/api", logoutRoute);
 app.use("/api", userRoute);
 app.use("/api", loginRoute);

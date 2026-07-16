@@ -5,7 +5,6 @@ import {
   updateAsset,
   deleteAsset,
 } from "../../models/asset/asset.model.js";
-
 import resFunc from "../../utils/resFunc.js";
 
 // Create Asset
