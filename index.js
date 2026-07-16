@@ -13,6 +13,10 @@ import dashboardRoute from "./src/routes/Dashboard/dashboardRoute.js";
 import assetRoute from "./src/routes/asset/assetRoute.js";
 import machineRoute from "./src/routes/machine/machineRoute.js";
 import machineLocationRoute from "./src/routes/machineLocation/machineLocationRoute.js";
+import { initializeGeneralDatabase } from "./src/config/initGeneralDatabase.js";
+import technicianRoute from "./src/routes/technician/technicianRoute.js";
+import operatorRoute from "./src/routes/operator/operatorRoute.js";
+import authorityRoute from "./src/routes/authority/authorityRoute.js";
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -25,6 +29,7 @@ app.use(
   }),
 );
 
+initializeGeneralDatabase();
 initializeDatabase();
 app.use(express.json());
 app.use("/api", dashboardRoute);
@@ -32,6 +37,9 @@ app.use("/api", inventoryRoute);
 app.use("/api", assetRoute);
 app.use("/api", machineRoute);
 app.use("/api", machineLocationRoute);
+app.use("/api", authorityRoute);
+app.use("/api", operatorRoute);
+app.use("/api", technicianRoute);
 app.use("/api", logoutRoute);
 app.use("/api", userRoute);
 app.use("/api", loginRoute);
