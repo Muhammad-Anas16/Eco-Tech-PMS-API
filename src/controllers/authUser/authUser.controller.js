@@ -14,7 +14,7 @@ import resFunc from "../../utils/resFunc.js";
 const COOKIE_OPTIONS = {
   httpOnly: true, // JS se access nahi (XSS se bachao)
   secure: process.env.NODE_ENV === "production", // production me sirf HTTPS
-  sameSite: "lax",
+  sameSite: "none",
   maxAge: 30 * 24 * 60 * 60 * 1000, // 30 din
 };
 
@@ -54,6 +54,68 @@ export const registerController = (req, res) => {
 };
 
 // ---------------- LOGIN ----------------
+// export const loginController = (req, res) => {
+//   try {
+//     const { employeeId, password } = req.body;
+
+//     if (!employeeId || !password) {
+//       return resFunc(res, 400, false, "employeeId and password are required.");
+//     }
+
+//     const user = getUserByEmployeeId(employeeId);
+
+//     if (!user) {
+//       return resFunc(res, 401, false, "Invalid employee ID or password.");
+//     }
+
+//     if (!user.isActive) {
+//       return resFunc(res, 403, false, "This account is deactivated.");
+//     }
+
+//     // Diya gaya password DB ke hashed password se compare kar rahe hain
+//     const isPasswordCorrect = bcrypt.compareSync(password, user.password);
+
+//     if (!isPasswordCorrect) {
+//       return resFunc(res, 401, false, "Invalid employee ID or password.");
+//     }
+
+//     // Token me id + role save karte hain — har request pe dobara DB
+//     // query kiye baghair pata chal jayega ye kaun hai aur kya role hai
+//     const token = generateToken({
+//       id: user.id,
+//       employeeId: user.employeeId,
+//       role: user.role,
+//     });
+
+//     res.cookie("token", token, COOKIE_OPTIONS);
+
+//     return resFunc(res, 200, true, "Login successful.", {
+//       id: user.id,
+//       employeeId: user.employeeId,
+//       fullName: user.fullName,
+//       role: user.role,
+//     });
+//   } catch (error) {
+//     return resFunc(res, 500, false, error.message);
+//   }
+// };
+
+// ---------------- LOGOUT ----------------
+// export const logoutController = (req, res) => {
+//   try {
+//     res.clearCookie("token", {
+//       httpOnly: true,
+//       secure: process.env.NODE_ENV === "production",
+//       sameSite: "lax",
+//     });
+
+//     return resFunc(res, 200, true, "Logged out successfully.");
+//   } catch (error) {
+//     return resFunc(res, 500, false, error.message);
+//   }
+// };
+
+// ---------------- LOGIN ----------------
 export const loginController = (req, res) => {
   try {
     const { employeeId, password } = req.body;
@@ -72,24 +134,22 @@ export const loginController = (req, res) => {
       return resFunc(res, 403, false, "This account is deactivated.");
     }
 
-    // Diya gaya password DB ke hashed password se compare kar rahe hain
     const isPasswordCorrect = bcrypt.compareSync(password, user.password);
 
     if (!isPasswordCorrect) {
       return resFunc(res, 401, false, "Invalid employee ID or password.");
     }
 
-    // Token me id + role save karte hain — har request pe dobara DB
-    // query kiye baghair pata chal jayega ye kaun hai aur kya role hai
     const token = generateToken({
       id: user.id,
       employeeId: user.employeeId,
       role: user.role,
     });
 
-    res.cookie("token", token, COOKIE_OPTIONS);
-
+    // Cookie set nahi kar rahe — token seedha response body me bhej rahe hain,
+    // frontend khud save karega (localStorage/sessionStorage)
     return resFunc(res, 200, true, "Login successful.", {
+      token,
       id: user.id,
       employeeId: user.employeeId,
       fullName: user.fullName,
@@ -101,14 +161,9 @@ export const loginController = (req, res) => {
 };
 
 // ---------------- LOGOUT ----------------
+// Ab server pe kuch clear nahi karna — token frontend hi delete karega
 export const logoutController = (req, res) => {
   try {
-    res.clearCookie("token", {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "lax",
-    });
-
     return resFunc(res, 200, true, "Logged out successfully.");
   } catch (error) {
     return resFunc(res, 500, false, error.message);
