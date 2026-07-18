@@ -20,6 +20,7 @@ import authorityRoute from "./src/routes/authority/authorityRoute.js";
 import faultRoute from "./src/routes/fault/faultRoute.js";
 import cookieParser from "cookie-parser";
 import authUserRoute from "./src/routes/authUser/authUserRoute.js";
+import jobRequestRoute from "./src/routes/jobRequest/jobRequestRoute.js";
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -45,6 +46,7 @@ app.use(cookieParser());
 initializeGeneralDatabase();
 initializeDatabase();
 
+app.use("/api", jobRequestRoute);
 app.use("/api", faultRoute);
 app.use("/api", dashboardRoute);
 app.use("/api", inventoryRoute);
