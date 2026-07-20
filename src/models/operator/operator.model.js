@@ -1,4 +1,4 @@
-import generalDb from "../../config/generalDb.js";
+import db2 from "../../config/db.js";
 
 //  Create Operators Table
 export const createOperatorTable = () => {
@@ -14,14 +14,14 @@ export const createOperatorTable = () => {
     );
   `;
 
-  generalDb.exec(query);
+  db2.exec(query);
 
   console.log("✅ Operators table ready");
 };
 
 //  Create Operator
 export const createOperator = (operator) => {
-  const statement = generalDb.prepare(`
+  const statement = db2.prepare(`
     INSERT INTO operators (
       operatorCode,
       operatorName,
@@ -30,18 +30,17 @@ export const createOperator = (operator) => {
     )
     VALUES (?, ?, ?, ?)
   `);
-
   return statement.run(
     operator.operatorCode,
     operator.operatorName,
     operator.plantName,
-    operator.isActive ?? 1,
+    operator.isActive ? 1 : 0,
   );
 };
 
 //  Get All Operators
 export const getOperators = () => {
-  const statement = generalDb.prepare(`
+  const statement = db2.prepare(`
     SELECT *
     FROM operators
     ORDER BY id DESC
@@ -52,7 +51,7 @@ export const getOperators = () => {
 
 //  Get Operator By ID
 export const getOperatorById = (id) => {
-  const statement = generalDb.prepare(`
+  const statement = db2.prepare(`
     SELECT *
     FROM operators
     WHERE id = ?
@@ -63,7 +62,7 @@ export const getOperatorById = (id) => {
 
 //  Update Operator
 export const updateOperator = (id, operator) => {
-  const statement = generalDb.prepare(`
+  const statement = db2.prepare(`
     UPDATE operators
     SET
       operatorCode = ?,
@@ -85,7 +84,7 @@ export const updateOperator = (id, operator) => {
 
 //  Delete Operator
 export const deleteOperator = (id) => {
-  const statement = generalDb.prepare(`
+  const statement = db2.prepare(`
     DELETE FROM operators
     WHERE id = ?
   `);

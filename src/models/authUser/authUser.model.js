@@ -1,4 +1,4 @@
-import generalDb from "../../config/generalDb.js";
+import db2 from "../../config/db.js";
 
 // Custom users table — role-based
 export const createUserTable = () => {
@@ -15,14 +15,14 @@ export const createUserTable = () => {
     );
   `;
 
-  generalDb.exec(query);
+  db2.exec(query);
 
   console.log("✅ Users table ready");
 };
 
 // Naya user create (password pehle se hashed aata hai controller se)
 export const createUser = (user) => {
-  const statement = generalDb.prepare(`
+  const statement = db2.prepare(`
     INSERT INTO users (employeeId, fullName, password, role, isActive)
     VALUES (?, ?, ?, ?, ?)
   `);
@@ -38,7 +38,7 @@ export const createUser = (user) => {
 
 // Login ke liye — password hash sahit pura record chahiye
 export const getUserByEmployeeId = (employeeId) => {
-  const statement = generalDb.prepare(
+  const statement = db2.prepare(
     `SELECT * FROM users WHERE employeeId = ?`,
   );
   return statement.get(employeeId);
@@ -46,7 +46,7 @@ export const getUserByEmployeeId = (employeeId) => {
 
 // Get-Me / listing ke liye — password kabhi wapas nahi bhejte
 export const getUserById = (id) => {
-  const statement = generalDb.prepare(`
+  const statement = db2.prepare(`
     SELECT id, employeeId, fullName, role, isActive, createdAt, updatedAt
     FROM users WHERE id = ?
   `);
@@ -54,7 +54,7 @@ export const getUserById = (id) => {
 };
 
 export const getUsers = () => {
-  const statement = generalDb.prepare(`
+  const statement = db2.prepare(`
     SELECT id, employeeId, fullName, role, isActive, createdAt, updatedAt
     FROM users ORDER BY id DESC
   `);
@@ -62,7 +62,7 @@ export const getUsers = () => {
 };
 
 export const updateUser = (id, user) => {
-  const statement = generalDb.prepare(`
+  const statement = db2.prepare(`
     UPDATE users
     SET fullName = ?, role = ?, isActive = ?, updatedAt = CURRENT_TIMESTAMP
     WHERE id = ?
@@ -71,6 +71,6 @@ export const updateUser = (id, user) => {
 };
 
 export const deleteUser = (id) => {
-  const statement = generalDb.prepare(`DELETE FROM users WHERE id = ?`);
+  const statement = db2.prepare(`DELETE FROM users WHERE id = ?`);
   return statement.run(id);
 };

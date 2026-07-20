@@ -1,4 +1,4 @@
-import generalDb from "../../config/generalDb.js";
+import db2 from "../../config/db.js";
 
 //  Create Authority Table
 export const createAuthorityTable = () => {
@@ -13,14 +13,14 @@ export const createAuthorityTable = () => {
     );
   `;
 
-  generalDb.exec(query);
+  db2.exec(query);
 
   console.log("✅ Authorities table ready");
 };
 
 //  Create Authority
 export const createAuthority = (authority) => {
-  const statement = generalDb.prepare(`
+  const statement = db2.prepare(`
     INSERT INTO authorities (
       authorityName,
       description,
@@ -32,13 +32,13 @@ export const createAuthority = (authority) => {
   return statement.run(
     authority.authorityName,
     authority.description,
-    authority.isActive ?? 1,
+    authority.isActive ? 1 : 0,
   );
 };
 
 //  Get All Authorities
 export const getAuthorities = () => {
-  const statement = generalDb.prepare(`
+  const statement = db2.prepare(`
     SELECT *
     FROM authorities
     ORDER BY id DESC
@@ -49,7 +49,7 @@ export const getAuthorities = () => {
 
 //  Get Authority By ID
 export const getAuthorityById = (id) => {
-  const statement = generalDb.prepare(`
+  const statement = db2.prepare(`
     SELECT *
     FROM authorities
     WHERE id = ?
@@ -60,7 +60,7 @@ export const getAuthorityById = (id) => {
 
 //  Update Authority
 export const updateAuthority = (id, authority) => {
-  const statement = generalDb.prepare(`
+  const statement = db2.prepare(`
     UPDATE authorities
     SET
       authorityName = ?,
@@ -80,7 +80,7 @@ export const updateAuthority = (id, authority) => {
 
 //  Delete Authority
 export const deleteAuthority = (id) => {
-  const statement = generalDb.prepare(`
+  const statement = db2.prepare(`
     DELETE FROM authorities
     WHERE id = ?
   `);

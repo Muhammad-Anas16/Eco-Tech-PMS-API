@@ -1,4 +1,4 @@
-import generalDb from "../../config/generalDb.js";
+import db2 from "../../config/db.js";
 
 //  Create Technicians Table
 export const createTechnicianTable = () => {
@@ -18,14 +18,14 @@ export const createTechnicianTable = () => {
     );
   `;
 
-  generalDb.exec(query);
+  db2.exec(query);
 
   console.log("✅ Technicians table ready");
 };
 
 //  Create Technician
 export const createTechnician = (tech) => {
-  const statement = generalDb.prepare(`
+  const statement = db2.prepare(`
     INSERT INTO technicians (
       techCode,
       techName,
@@ -47,13 +47,13 @@ export const createTechnician = (tech) => {
     tech.employeeCode,
     tech.plantName,
     tech.type,
-    tech.isActive ?? 1,
+    tech.isActive ? 1 : 0,
   );
 };
 
 //  Get All Technicians
 export const getTechnicians = () => {
-  const statement = generalDb.prepare(`
+  const statement = db2.prepare(`
     SELECT *
     FROM technicians
     ORDER BY id DESC
@@ -64,7 +64,7 @@ export const getTechnicians = () => {
 
 //  Get Technician By ID
 export const getTechnicianById = (id) => {
-  const statement = generalDb.prepare(`
+  const statement = db2.prepare(`
     SELECT *
     FROM technicians
     WHERE id = ?
@@ -75,7 +75,7 @@ export const getTechnicianById = (id) => {
 
 //  Update Technician
 export const updateTechnician = (id, tech) => {
-  const statement = generalDb.prepare(`
+  const statement = db2.prepare(`
     UPDATE technicians
     SET
       techCode = ?,
@@ -105,7 +105,7 @@ export const updateTechnician = (id, tech) => {
 
 //  Delete Technician
 export const deleteTechnician = (id) => {
-  const statement = generalDb.prepare(`
+  const statement = db2.prepare(`
     DELETE FROM technicians
     WHERE id = ?
   `);

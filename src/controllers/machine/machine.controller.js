@@ -81,6 +81,7 @@ export const updateMachineController = (req, res) => {
 export const deleteMachineController = (req, res) => {
   try {
     const { id } = req.params;
+    console.log("MAchine ID :", id);
 
     const result = deleteMachine(id);
 
@@ -90,6 +91,7 @@ export const deleteMachineController = (req, res) => {
 
     return resFunc(res, 200, true, "Machine deleted successfully.", result);
   } catch (error) {
+    console.log("checking Delete Err Machine", error.message);
     return resFunc(res, 500, false, error.message);
   }
 };

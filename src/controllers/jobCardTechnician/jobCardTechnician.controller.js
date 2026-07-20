@@ -3,8 +3,8 @@ import {
   getTechniciansByJobCard,
   removeTechnicianAssignment,
 } from "../../models/jobCardTechnician/jobCardTechnician.model.js";
-import generalDb from "../../config/generalDb.js";
 import resFunc from "../../utils/resFunc.js";
+import db2 from "../../config/db.js";
 
 // Assign
 export const assignTechnicianController = (req, res) => {
@@ -34,7 +34,7 @@ export const getTechniciansByJobCardController = (req, res) => {
     const assignments = getTechniciansByJobCard(jobCardId);
 
     const withNames = assignments.map((a) => {
-      const tech = generalDb
+      const tech = db2
         .prepare(`SELECT techName, techCode FROM technicians WHERE id = ?`)
         .get(a.technicianId);
 

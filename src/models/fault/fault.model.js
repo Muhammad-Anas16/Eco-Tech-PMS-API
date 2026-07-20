@@ -30,7 +30,7 @@ export const createFault = (fault) => {
   return statement.run(
     fault.faultName,
     fault.machineId || null, // machine na diya ho to null save hoga
-    fault.isActive ?? 1,
+    fault.isActive ? 1 : 0,
   );
 };
 

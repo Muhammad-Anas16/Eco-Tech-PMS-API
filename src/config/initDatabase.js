@@ -1,4 +1,5 @@
 import { createAssetTable } from "../models/asset/asset.model.js";
+import { createAuthorityTable } from "../models/authority/authority.model.js";
 import { createUserTable } from "../models/authUser/authUser.model.js";
 import { createFaultTable } from "../models/fault/fault.model.js";
 import { createInventoryTable } from "../models/inventory/inventory.model.js";
@@ -8,6 +9,8 @@ import { createJobCardTechnicianTable } from "../models/jobCardTechnician/jobCar
 import { createJobRequestTable } from "../models/jobRequest/jobRequest.model.js";
 import { createMachineTable } from "../models/machine/machine.model.js";
 import { createMachineLocationTable } from "../models/machineLocation/machineLocation.model.js";
+import { createOperatorTable } from "../models/operator/operator.model.js";
+import { createTechnicianTable } from "../models/technician/technician.model.js";
 
 export const initializeDatabase = () => {
   console.log("🚀 Initializing Database...");
@@ -22,6 +25,9 @@ export const initializeDatabase = () => {
   createInventoryTable();
   createMachineTable();
   createMachineLocationTable();
+  createAuthorityTable();
+  createOperatorTable();
+  createTechnicianTable();
 
   console.log("✅ Database Ready");
 };

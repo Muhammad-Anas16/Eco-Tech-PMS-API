@@ -13,7 +13,6 @@ import dashboardRoute from "./src/routes/Dashboard/dashboardRoute.js";
 import assetRoute from "./src/routes/asset/assetRoute.js";
 import machineRoute from "./src/routes/machine/machineRoute.js";
 import machineLocationRoute from "./src/routes/machineLocation/machineLocationRoute.js";
-import { initializeGeneralDatabase } from "./src/config/initGeneralDatabase.js";
 import technicianRoute from "./src/routes/technician/technicianRoute.js";
 import operatorRoute from "./src/routes/operator/operatorRoute.js";
 import authorityRoute from "./src/routes/authority/authorityRoute.js";
@@ -28,13 +27,16 @@ const app = express();
 const port = process.env.PORT || 5000;
 const host = process.env.LOCAL_IP_ADDRESS;
 
+// Cors 
 // app.use(
 //   cors({
-//     origin: "http://localhost:5173",
+//     origin: [
+//       "http://localhost:5173",
+//       "http://192.168.1.108:5173",
+//     ],
 //     credentials: true,
-//   }),
+//   })
 // );
-
 app.use(
   cors({
     origin: true, // Allow all origins
@@ -42,12 +44,13 @@ app.use(
   }),
 );
 
+
+// Middle ware
 app.use(express.json());
 app.use(cookieParser());
-
-initializeGeneralDatabase();
+// initialize Database
 initializeDatabase();
-
+// Routes
 app.use("/api", jobCardSubRoute);
 app.use("/api", jobCardRoute);
 app.use("/api", jobRequestRoute);
@@ -65,8 +68,9 @@ app.use("/api", userRoute);
 // app.use("/api", loginRoute);
 // app.use("/api", registerRoute);
 app.use("/api", authUserRoute);
-app.all("/api/auth/*splat", toNodeHandler(auth));
+// app.all("/api/auth/*splat", toNodeHandler(auth));
 
+// ********************** 
 app.get("/", (req, res) => {
   res.send("Hello World!");
 });

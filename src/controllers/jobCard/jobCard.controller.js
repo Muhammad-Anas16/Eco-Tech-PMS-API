@@ -6,8 +6,8 @@ import {
   updateJobCardTiming,
   updateJobCardStatus,
 } from "../../models/jobCard/jobCard.model.js";
-import generalDb from "../../config/generalDb.js";
 import resFunc from "../../utils/resFunc.js";
+import db2 from "../../config/db.js";
 
 // Job types jo video ke Job Card form me the
 const VALID_JOB_TYPES = [
@@ -34,7 +34,7 @@ const VALID_STATUSES = ["In-Progress", "Completed"];
 const attachOperatorName = (jobCard) => {
   if (!jobCard || !jobCard.operatorId) return jobCard;
 
-  const operator = generalDb
+  const operator = db2
     .prepare(`SELECT operatorName FROM operators WHERE id = ?`)
     .get(jobCard.operatorId);
 
