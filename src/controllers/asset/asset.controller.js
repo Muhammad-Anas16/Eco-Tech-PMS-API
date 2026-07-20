@@ -50,7 +50,6 @@ export const getAssetByIdController = (req, res) => {
 export const updateAssetController = (req, res) => {
   try {
     const { id } = req.params;
-    console.log(req.body);
     const result = updateAsset(id, req.body);
 
     if (result.changes === 0) {

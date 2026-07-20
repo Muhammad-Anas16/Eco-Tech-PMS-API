@@ -1,6 +1,5 @@
 import db2 from "../../config/db.js";
 
-//  Job Requests table banata hai
 export const createJobRequestTable = () => {
   const query = `
     CREATE TABLE IF NOT EXISTS job_requests (
@@ -20,7 +19,6 @@ export const createJobRequestTable = () => {
   console.log("✅ Job Requests table ready");
 };
 
-// Naya job request create karta hai — status hamesha "Open" se shuru hota hai
 export const createJobRequest = (jobRequest) => {
   const statement = db2.prepare(`
     INSERT INTO job_requests (machineId, requestedByName, description, status)
@@ -35,7 +33,6 @@ export const createJobRequest = (jobRequest) => {
   );
 };
 
-// Sab job requests — machine ka naam bhi JOIN karke sath laate hain
 export const getJobRequests = () => {
   const statement = db2.prepare(`
     SELECT
@@ -55,7 +52,6 @@ export const getJobRequests = () => {
   return statement.all();
 };
 
-// ID se ek job request
 export const getJobRequestById = (id) => {
   const statement = db2.prepare(`
     SELECT
@@ -75,7 +71,6 @@ export const getJobRequestById = (id) => {
   return statement.get(id);
 };
 
-// Poori details update (machine, requester, description)
 export const updateJobRequest = (id, jobRequest) => {
   const statement = db2.prepare(`
     UPDATE job_requests
@@ -95,7 +90,6 @@ export const updateJobRequest = (id, jobRequest) => {
   );
 };
 
-// Sirf status change karne ke liye (Open -> In-Progress -> Closed)
 export const updateJobRequestStatus = (id, status) => {
   const statement = db2.prepare(`
     UPDATE job_requests
@@ -106,7 +100,6 @@ export const updateJobRequestStatus = (id, status) => {
   return statement.run(status, id);
 };
 
-// Delete
 export const deleteJobRequest = (id) => {
   const statement = db2.prepare(`
     DELETE FROM job_requests WHERE id = ?

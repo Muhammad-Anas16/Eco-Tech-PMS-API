@@ -8,10 +8,9 @@ import {
 } from "../../models/jobRequest/jobRequest.model.js";
 import resFunc from "../../utils/resFunc.js";
 
-// Valid status values — inke ilawa koi aur value allow nahi karni
-const VALID_STATUSES = ["Open", "In-Progress", "Closed"];
+// "Rejected" ab valid status hai
+const VALID_STATUSES = ["Open", "In-Progress", "Closed", "Rejected"];
 
-// Create
 export const createJobRequestController = (req, res) => {
   try {
     const { machineId, requestedByName } = req.body;
@@ -41,7 +40,6 @@ export const createJobRequestController = (req, res) => {
   }
 };
 
-// Get All
 export const getJobRequestsController = (req, res) => {
   try {
     return resFunc(
@@ -56,7 +54,6 @@ export const getJobRequestsController = (req, res) => {
   }
 };
 
-// Get By ID
 export const getJobRequestByIdController = (req, res) => {
   try {
     const { id } = req.params;
@@ -78,7 +75,6 @@ export const getJobRequestByIdController = (req, res) => {
   }
 };
 
-// Update (details)
 export const updateJobRequestController = (req, res) => {
   try {
     const { id } = req.params;
@@ -105,7 +101,6 @@ export const updateJobRequestController = (req, res) => {
   }
 };
 
-// Update Status (Open -> In-Progress -> Closed)
 export const updateJobRequestStatusController = (req, res) => {
   try {
     const { id } = req.params;
@@ -138,7 +133,6 @@ export const updateJobRequestStatusController = (req, res) => {
   }
 };
 
-// Delete
 export const deleteJobRequestController = (req, res) => {
   try {
     const { id } = req.params;
