@@ -21,6 +21,8 @@ import faultRoute from "./src/routes/fault/faultRoute.js";
 import cookieParser from "cookie-parser";
 import authUserRoute from "./src/routes/authUser/authUserRoute.js";
 import jobRequestRoute from "./src/routes/jobRequest/jobRequestRoute.js";
+import jobCardRoute from "./src/routes/jobCard/jobCardRoute.js";
+import jobCardSubRoute from "./src/routes/jobCard/jobCardSubRoute.js";
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -46,6 +48,8 @@ app.use(cookieParser());
 initializeGeneralDatabase();
 initializeDatabase();
 
+app.use("/api", jobCardSubRoute);
+app.use("/api", jobCardRoute);
 app.use("/api", jobRequestRoute);
 app.use("/api", faultRoute);
 app.use("/api", dashboardRoute);
