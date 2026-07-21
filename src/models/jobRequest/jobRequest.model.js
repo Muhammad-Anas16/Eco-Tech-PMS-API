@@ -7,7 +7,7 @@ export const createJobRequestTable = () => {
       machineId INTEGER NOT NULL,
       requestedByName TEXT NOT NULL,
       description TEXT,
-      status TEXT DEFAULT 'Open',
+      status TEXT DEFAULT 'Pending',
       createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
       updatedAt DATETIME DEFAULT CURRENT_TIMESTAMP,
       FOREIGN KEY (machineId) REFERENCES machines(id)
@@ -29,7 +29,7 @@ export const createJobRequest = (jobRequest) => {
     jobRequest.machineId,
     jobRequest.requestedByName,
     jobRequest.description || null,
-    "Open",
+    "Pending",
   );
 };
 

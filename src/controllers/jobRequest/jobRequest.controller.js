@@ -9,7 +9,7 @@ import {
 import resFunc from "../../utils/resFunc.js";
 
 // "Rejected" ab valid status hai
-const VALID_STATUSES = ["Open", "In-Progress", "Closed", "Rejected"];
+const VALID_STATUSES = ["Pending", "Approved", "Rejected"];
 
 export const createJobRequestController = (req, res) => {
   try {
