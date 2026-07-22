@@ -22,6 +22,7 @@ import authUserRoute from "./src/routes/authUser/authUserRoute.js";
 import jobRequestRoute from "./src/routes/jobRequest/jobRequestRoute.js";
 import jobCardRoute from "./src/routes/jobCard/jobCardRoute.js";
 import jobCardSubRoute from "./src/routes/jobCard/jobCardSubRoute.js";
+import pmsScheduleRoute from "./src/routes/pmsSchedule/pmsScheduleRoute.js";
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -51,6 +52,7 @@ app.use(cookieParser());
 // initialize Database
 initializeDatabase();
 // Routes
+app.use("/api", pmsScheduleRoute); // PMS schedual Route
 app.use("/api", jobCardSubRoute);
 app.use("/api", jobCardRoute);
 app.use("/api", jobRequestRoute);
