@@ -10,12 +10,14 @@ import { createJobRequestTable } from "../models/jobRequest/jobRequest.model.js"
 import { createMachineTable } from "../models/machine/machine.model.js";
 import { createMachineLocationTable } from "../models/machineLocation/machineLocation.model.js";
 import { createOperatorTable } from "../models/operator/operator.model.js";
+import { createPmsTable } from "../models/pms/pms.model.js";
 import { createPmsScheduleTable } from "../models/pmsSchedule/pmsSchedule.model.js";
 import { createTechnicianTable } from "../models/technician/technician.model.js";
 
 export const initializeDatabase = () => {
   console.log("🚀 Initializing Database...");
 
+  createPmsTable()
   createPmsScheduleTable(); // PMS schedual
   createJobCardTechnicianTable();
   createJobCardItemTable();

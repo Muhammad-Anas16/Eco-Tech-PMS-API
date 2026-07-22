@@ -1,6 +1,5 @@
 import db2 from "../../config/db.js";
 
-// Ek PMS Schedule me 5 machines tak ho sakti hain (video reference ke hisaab se)
 export const createPmsScheduleTable = () => {
   const query = `
     CREATE TABLE IF NOT EXISTS pms_schedules (
@@ -12,6 +11,9 @@ export const createPmsScheduleTable = () => {
       machine5Id INTEGER,
       plant TEXT,
       remarks TEXT,
+      frequencyDays INTEGER DEFAULT 30,
+      nextDueDate DATE,
+      status TEXT DEFAULT 'Active',
       isActive INTEGER DEFAULT 1,
       createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
       updatedAt DATETIME DEFAULT CURRENT_TIMESTAMP,
@@ -27,9 +29,10 @@ export const createPmsScheduleTable = () => {
 export const createPmsSchedule = (schedule) => {
   const statement = db2.prepare(`
     INSERT INTO pms_schedules (
-      machineId, machine2Id, machine3Id, machine4Id, machine5Id, plant, remarks, isActive
+      machineId, machine2Id, machine3Id, machine4Id, machine5Id,
+      plant, remarks, frequencyDays, nextDueDate, status, isActive
     )
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
   `);
 
   return statement.run(
@@ -40,11 +43,13 @@ export const createPmsSchedule = (schedule) => {
     schedule.machine5Id || null,
     schedule.plant || null,
     schedule.remarks || null,
+    schedule.frequencyDays || 30,
+    schedule.nextDueDate || null,
+    schedule.status || "Active",
     schedule.isActive ?? 1,
   );
 };
 
-// Sab schedules — machine ka naam bhi JOIN karke laate hain
 export const getPmsSchedules = () => {
   const statement = db2.prepare(`
     SELECT
@@ -62,7 +67,6 @@ export const getPmsSchedules = () => {
     LEFT JOIN machines m5 ON m5.id = s.machine5Id
     ORDER BY s.id DESC
   `);
-
   return statement.all();
 };
 
@@ -83,7 +87,6 @@ export const getPmsScheduleById = (id) => {
     LEFT JOIN machines m5 ON m5.id = s.machine5Id
     WHERE s.id = ?
   `);
-
   return statement.get(id);
 };
 
@@ -92,7 +95,8 @@ export const updatePmsSchedule = (id, schedule) => {
     UPDATE pms_schedules
     SET
       machineId = ?, machine2Id = ?, machine3Id = ?, machine4Id = ?, machine5Id = ?,
-      plant = ?, remarks = ?, isActive = ?, updatedAt = CURRENT_TIMESTAMP
+      plant = ?, remarks = ?, frequencyDays = ?, nextDueDate = ?, status = ?, isActive = ?,
+      updatedAt = CURRENT_TIMESTAMP
     WHERE id = ?
   `);
 
@@ -104,6 +108,9 @@ export const updatePmsSchedule = (id, schedule) => {
     schedule.machine5Id || null,
     schedule.plant || null,
     schedule.remarks || null,
+    schedule.frequencyDays || 30,
+    schedule.nextDueDate || null,
+    schedule.status || "Active",
     schedule.isActive ?? 1,
     id,
   );

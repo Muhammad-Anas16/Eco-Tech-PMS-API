@@ -27,7 +27,7 @@ const VALID_JOB_TYPES = [
   "Winding Workshop",
 ];
 
-const VALID_STATUSES = ["In-Progress", "Completed"];
+const VALID_STATUSES = ["In-Progress", "Completed", "Cancelled"];
 
 // operatorId se general.db me operator ka naam dhoondta hai
 // (cross-database hai isliye JOIN nahi ho sakta, alag query zaroori hai)

@@ -7,12 +7,23 @@ import {
 } from "../../models/pmsSchedule/pmsSchedule.model.js";
 import resFunc from "../../utils/resFunc.js";
 
+const VALID_SCHEDULE_STATUSES = ["Active", "Completed"];
+
 export const createPmsScheduleController = (req, res) => {
   try {
     const { machineId } = req.body;
 
     if (!machineId) {
       return resFunc(res, 400, false, "machineId is required.");
+    }
+
+    if (req.body.status && !VALID_SCHEDULE_STATUSES.includes(req.body.status)) {
+      return resFunc(
+        res,
+        400,
+        false,
+        `status must be one of: ${VALID_SCHEDULE_STATUSES.join(", ")}`,
+      );
     }
 
     const result = createPmsSchedule(req.body);
@@ -79,6 +90,15 @@ export const updatePmsScheduleController = (req, res) => {
 
     if (!machineId) {
       return resFunc(res, 400, false, "machineId is required.");
+    }
+
+    if (req.body.status && !VALID_SCHEDULE_STATUSES.includes(req.body.status)) {
+      return resFunc(
+        res,
+        400,
+        false,
+        `status must be one of: ${VALID_SCHEDULE_STATUSES.join(", ")}`,
+      );
     }
 
     const result = updatePmsSchedule(id, req.body);

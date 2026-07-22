@@ -63,18 +63,34 @@ export const createJobCard = (jobCard) => {
 
 // Sab job cards — machine aur fault ka naam JOIN karke sath laate hain
 // (operator ka naam alag se controller me general.db se laayenge)
+// export const getJobCards = () => {
+//   const statement = db2.prepare(`
+//     SELECT
+//       job_cards.*,
+//       machines.machineName,
+//       faults.faultName
+//     FROM job_cards
+//     LEFT JOIN machines ON machines.id = job_cards.machineId
+//     LEFT JOIN faults ON faults.id = job_cards.faultId
+//     ORDER BY job_cards.id DESC
+//   `);
+
+//   return statement.all();
+// };
+
+// Naya — assignedCount subquery add kiya
 export const getJobCards = () => {
   const statement = db2.prepare(`
     SELECT
       job_cards.*,
       machines.machineName,
-      faults.faultName
+      faults.faultName,
+      (SELECT COUNT(*) FROM job_card_technicians jct WHERE jct.jobCardId = job_cards.id) AS assignedCount
     FROM job_cards
     LEFT JOIN machines ON machines.id = job_cards.machineId
     LEFT JOIN faults ON faults.id = job_cards.faultId
     ORDER BY job_cards.id DESC
   `);
-
   return statement.all();
 };
 
