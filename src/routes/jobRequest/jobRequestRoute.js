@@ -6,6 +6,7 @@ import {
   updateJobRequestController,
   updateJobRequestStatusController,
   deleteJobRequestController,
+  convertJobRequestToJobCardController,
 } from "../../controllers/jobRequest/jobRequest.controller.js";
 import authMiddleware from "../../middleware/auth.middleware.js";
 
@@ -17,6 +18,11 @@ jobRequestRoute.post(
   createJobRequestController,
 );
 jobRequestRoute.get("/job-requests", authMiddleware, getJobRequestsController);
+jobRequestRoute.post(
+  "/job-requests/:id/convert",
+  authMiddleware,
+  convertJobRequestToJobCardController,
+);
 jobRequestRoute.get(
   "/job-requests/:id",
   authMiddleware,

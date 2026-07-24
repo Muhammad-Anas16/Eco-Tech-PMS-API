@@ -8,15 +8,26 @@ export const createJobRequestTable = () => {
       requestedByName TEXT NOT NULL,
       description TEXT,
       status TEXT DEFAULT 'Pending',
+      jobCardId INTEGER,
       createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
       updatedAt DATETIME DEFAULT CURRENT_TIMESTAMP,
-      FOREIGN KEY (machineId) REFERENCES machines(id)
+      FOREIGN KEY (machineId) REFERENCES machines(id),
+      FOREIGN KEY (jobCardId) REFERENCES job_cards(id)
     );
   `;
-
   db2.exec(query);
-
   console.log("✅ Job Requests table ready");
+};
+
+// Naya function — conversion ke baad jobCardId set karta hai
+export const linkJobRequestToJobCard = (jobRequestId, jobCardId) => {
+  return db2
+    .prepare(
+      `
+    UPDATE job_requests SET jobCardId = ?, updatedAt = CURRENT_TIMESTAMP WHERE id = ?
+  `,
+    )
+    .run(jobCardId, jobRequestId);
 };
 
 export const createJobRequest = (jobRequest) => {

@@ -5,6 +5,7 @@ import {
   updateJobRequest,
   updateJobRequestStatus,
   deleteJobRequest,
+  linkJobRequestToJobCard,
 } from "../../models/jobRequest/jobRequest.model.js";
 import resFunc from "../../utils/resFunc.js";
 
@@ -36,6 +37,65 @@ export const createJobRequestController = (req, res) => {
         "Invalid machineId — machine does not exist.",
       );
     }
+    return resFunc(res, 500, false, error.message);
+  }
+};
+
+export const convertJobRequestToJobCardController = (req, res) => {
+  try {
+    const { id } = req.params;
+    const { jobType } = req.body;
+
+    if (!jobType) {
+      return resFunc(
+        res,
+        400,
+        false,
+        "jobType is required to create the work order.",
+      );
+    }
+
+    const request = getJobRequestById(id);
+
+    if (!request) {
+      return resFunc(res, 404, false, "Job request not found.");
+    }
+
+    if (request.jobCardId) {
+      return resFunc(
+        res,
+        400,
+        false,
+        "This job request has already been converted.",
+      );
+    }
+
+    if (request.status !== "Approved") {
+      return resFunc(
+        res,
+        400,
+        false,
+        "Only approved job requests can be converted.",
+      );
+    }
+
+    // Job Request ka data Job Card me copy karke naya Job Card banate hain
+    const jobCardResult = createJobCard({
+      machineId: request.machineId,
+      jobType,
+      remarks: request.description,
+    });
+
+    linkJobRequestToJobCard(id, jobCardResult.id);
+
+    return resFunc(
+      res,
+      201,
+      true,
+      "Converted to work order successfully.",
+      jobCardResult,
+    );
+  } catch (error) {
     return resFunc(res, 500, false, error.message);
   }
 };
